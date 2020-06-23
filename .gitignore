@@ -1,0 +1,10 @@
+build/
+.vs/
+
+*.exe
+*.obj
+*.o
+*.ilk
+*.pdb
+*.pso
+*.vso
