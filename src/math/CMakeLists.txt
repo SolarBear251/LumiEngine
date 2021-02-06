@@ -1,0 +1,48 @@
+SET(LINEAR_ALGEBRA_LIB_FILE ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_STATIC_LIBRARY_PREFIX}LinearAlgebra${CMAKE_STATIC_LIBRARY_SUFFIX})
+IF(${CMAKE_HOST_SYSTEM_NAME} MATCHES "Windows")
+    SET(ISPC_COMPILER_PATH ${PROJECT_SOURCE_DIR}/thirdparty/windows/bin/)
+    SET(ISPC_COMPILER ispc.exe)
+    IF(NOT ${CMAKE_CROSSCOMPILING})
+        if(${MSVC})
+            SET(CMAKE_AR lib)
+            if(${ARCH_BIT} MATCHES 64)
+                SET(ISPC_OPTIONS --arch=x86-64 --target=host)
+                SET(ISPC_LIBRARIAN_OPTIONS /MACHINE:X64 /OUT:${LINEAR_ALGEBRA_LIB_FILE})
+            else()
+                SET(ISPC_OPTIONS --arch=x86 --target=host)
+                SET(ISPC_LIBRARIAN_OPTIONS /MACHINE:X86 /OUT:${LINEAR_ALGEBRA_LIB_FILE})
+            endif()
+        else()
+            if(${ARCH_BIT} MATCHES 64)
+                SET(ISPC_OPTIONS --arch=x86-64 --target=host)
+            else()
+                SET(ISPC_OPTIONS --arch=x86 --target=host)
+            endif()
+            SET(ISPC_LIBRARIAN_OPTIONS -rcv ${LINEAR_ALGEBRA_LIB_FILE})
+        endif(${MSVC})
+    ELSE()
+        if(PSP2)
+            SET(ISPC_OPTIONS --arch=arm --cpu=cortex-a9 --target=neon-i32x4)
+            SET(CMAKE_AR ${SNC_TOOLCHAIN_DIR}psp2snarl -rcv ${LINEAR_ALGEBRA_LIB_FILE})
+        endif()
+    ENDIF()
+ELSE()
+    SET(ISPC_COMPILER_PATH ${PROJECT_SOURCE_DIR}/thirdparty/linux/bin/)
+    SET(ISPC_COMPILER ispc)
+    SET(ISPC_OPTIONS --arch=x86-64 --target=host --pic)
+    SET(ISPC_LIBRARIAN_OPTIONS -rcv -o ${LINEAR_ALGEBRA_LIB_FILE})
+ENDIF(${CMAKE_HOST_SYSTEM_NAME} MATCHES "Windows")
+
+# common options for ispc
+SET(ISPC_OPTIONS ${ISPC_OPTIONS} -O2)
+
+add_subdirectory(ispc)
+add_subdirectory(test)
+
+add_library(LinearAlgebra STATIC IMPORTED GLOBAL)
+add_dependencies(LinearAlgebra IspcMathLib)
+
+set_target_properties(LinearAlgebra
+        PROPERTIES
+        IMPORTED_LOCATION ${LINEAR_ALGEBRA_LIB_FILE}
+        )

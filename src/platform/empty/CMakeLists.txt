@@ -1,0 +1,2 @@
+add_executable(emptyApp EmptyApplication.cpp)
+target_link_libraries(emptyApp common)
