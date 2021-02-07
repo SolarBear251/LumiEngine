@@ -1,0 +1,2 @@
+add_executable(WindowsApp WindowsApplication.cpp)
+target_link_libraries(WindowsApp core)

@@ -11,10 +11,11 @@
  * *********************************************************************************
  */
 
-#include "BaseApplication.h"
+#include "core/BaseApplication.h"
 
 namespace Lumi {
-    BaseApplication BaseApp;
+    Config config;
+    BaseApplication BaseApp(config);
     IApplication *App = &BaseApp;
 
 }; ///< namespace Lumi

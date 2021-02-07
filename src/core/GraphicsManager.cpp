@@ -11,4 +11,4 @@
  * *********************************************************************************
  */
 
-#include "GraphicsManager.h"
+#include "core/GraphicsManager.h"
