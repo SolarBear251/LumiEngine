@@ -18,7 +18,10 @@
 
 namespace Lumi {
 
-struct Config {
+class IApplication;
+
+class Config {
+public:
     const char* _appName;
     uint32_t _screenWidth;
     uint32_t _screenHeight;
@@ -32,7 +35,35 @@ struct Config {
     uint32_t _stencilBits;  ///< stencil buffer depth in bits
     uint32_t _msaaSamples;  ///< MSAA samples
 
-    /// Constructors
+    /// Singleton
+    static Config& Instance() {
+        static Config gConfig("LumiEngine", 960, 540, 8, 8, 8, 8, 32, 0, 0);
+        return gConfig;
+    }
+    /**
+     * @brief    Initialize all global modules.
+     * 
+     * @return   int    Result code
+     */
+    int Initialize();
+
+    /**
+     * @brief    Get initialize application module.
+     *
+     * Please implement this function on your platform.
+     *
+     * @return   IApplication*   Pointer to the application
+     */
+    IApplication* GetInitApp();
+
+    /**
+     * @brief    Finalize all global modules.
+     * 
+     */
+    void Finalize();
+
+private:
+    /// Constructors and destructors
     Config(const char* app_name = "LumiEngine", uint32_t width = 1920,
            uint32_t height = 1080, uint32_t r = 8, uint32_t g = 8,
            uint32_t b = 8, uint32_t a = 8, uint32_t d = 24, uint32_t s = 0,
@@ -49,6 +80,9 @@ struct Config {
           _msaaSamples(msaa)
 
     {}
+
+    virtual ~Config() { Finalize(); }
+
 
 }; ///< struct Config
 

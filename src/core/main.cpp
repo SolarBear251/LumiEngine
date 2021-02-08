@@ -12,13 +12,10 @@
  */
 
 #include <iostream>
+
 #include "interface/IApplication.h"
-
-namespace Lumi {
-    /// External instance of application
-    extern IApplication *App;
-
-}; ///< namespace Lumi
+#include "core/Config.h"
+#include "core/AssetLoader.h"
 
 /**
  * @brief    Main function. Entry of the engine.
@@ -29,19 +26,30 @@ namespace Lumi {
  * @return   int        Exit status of the program.
  */
 int main(int argc, char **argv) {
-    int ret;
+    // Config modules
+    Lumi::Config::Instance().Initialize();
+    std::vector<Lumi::IRuntimeModule*> modules;
+    modules.emplace_back(Lumi::gApp);
+    modules.emplace_back(Lumi::gAssetLoader);
 
-    // Initialize
-    if((ret = Lumi::App->Initialize()) != 0) {
-        std::cout << "App initialize failed. Exit now" << std::endl;
-        return ret;
+    // Initialize modules
+    int res;
+    for (auto &module : modules) {
+        if ((res = module->Initialize()) != 0) {
+            std::cerr << "Initialize failed, err = " << res << std::endl;
+            return EXIT_FAILURE;
+        }
     }
     // Tick
-    while(!Lumi::App->IsQuit()) {
-        Lumi::App->Tick();
+    while(!Lumi::gApp->IsQuit()) {
+        for (auto &module : modules) {
+            module->Tick();
+        }
     }
     // Finalize
-    Lumi::App->Finalize();
+    for (auto &module : modules) {
+        module->Finalize();
+    }
 
-    return 0;
+    return EXIT_SUCCESS;
 }

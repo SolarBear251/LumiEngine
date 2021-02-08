@@ -12,13 +12,12 @@
  */
 
 #include "platform/windows/WindowsApplication.h"
+#include "core/Config.h"
 
-namespace Lumi {
-    Config Conf("LumiEngine", 960, 540, 8, 8, 8, 8, 32, 0, 0);
-    WindowsApplication WindowsApp(Conf);
-    IApplication *App = &WindowsApp;
-
-}; ///< namespace Lumi
+Lumi::IApplication* Lumi::Config::GetInitApp() {
+    static WindowsApplication windowsApp;
+    return &windowsApp;
+}
 
 int Lumi::WindowsApplication::Initialize() {
     // Init base application
@@ -40,17 +39,18 @@ int Lumi::WindowsApplication::Initialize() {
     wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
     wc.lpszClassName = "LumiEngine";
 
+    Config& config = Config::Instance();
     // Register the windows class
     RegisterClassEx(&wc);
     // Create the window and use the result as the handle
     hWnd = CreateWindowEx(0,
                           "LumiEngine",           ///< name of the window class
-                          _config._appName,       ///< title of the window
+                          config._appName,        ///< title of the window
                           WS_OVERLAPPEDWINDOW,    ///< window style
                           CW_USEDEFAULT,          ///< x-position of the window
                           CW_USEDEFAULT,          ///< y-position of the window
-                          _config._screenWidth,   ///< width of the window
-                          _config._screenHeight,  ///< height of the window
+                          config._screenWidth,    ///< width of the window
+                          config._screenHeight,   ///< height of the window
                           NULL,                   ///< parent window
                           NULL,                   ///< menus
                           hInstance,              ///< application handle

@@ -3,7 +3,7 @@
  * @author     Lumi (lumiowo@hotmail.com)
  * @date       2021-02-07
  *
- * @brief    Methods definitions for MemoryManager
+ * @brief    Methods definitions of MemoryManager
  *
  * *********************************************************************************
  *

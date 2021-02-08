@@ -24,13 +24,13 @@ namespace Lumi {
 /// Header of block
 class BlockHeader {
 public:
-    BlockHeader* _next;     ///< Next free block.
+    BlockHeader* next;     ///< Next free block.
 }; ///< class BlockHeader
 
 /// Header of page
 class PageHeader {
 public:
-    PageHeader* _next;      ///< Next page.
+    PageHeader* next;      ///< Next page.
 
     /**
      * @brief    Get pointer to the following blocks.

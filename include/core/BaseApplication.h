@@ -14,19 +14,16 @@
 #pragma once
 
 #include "interface/IApplication.h"
-#include "Config.h"
 
 namespace Lumi {
 
 class BaseApplication : implements IApplication {
 protected:
     static bool _quit;
-    Config _config;
 
 public:
     /// Constructors and destructors
-    BaseApplication() = delete;     ///< Enforce a configuration
-    BaseApplication(Config &config) : _config(config) {}
+    BaseApplication() = default;
     virtual ~BaseApplication() {}
 
     /// Override functions

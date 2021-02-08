@@ -1,4 +1,6 @@
 add_library(core
+    Config.cpp
+    AssetLoader.cpp
     Allocator.cpp
     MemoryManager.cpp
     BaseApplication.cpp

@@ -3,7 +3,7 @@
  * @author     Lumi (lumiowo@hotmail.com)
  * @date       2021-02-07
  *
- * @brief    Methods definitions for Allocator
+ * @brief    Methods definitions of Allocator
  *
  * *********************************************************************************
  *
@@ -46,21 +46,21 @@ void* Lumi::Allocator::Malloc() {
 #endif
         // Insert the new page to front
         if (_pageList) {
-            newPage->_next = _pageList;
+            newPage->next = _pageList;
         }
         _pageList = newPage;
         // Insert the new blocks into free list
         BlockHeader* block = newPage->Blocks();
         _freeList = block;
         for(size_t i = 0; i < _blocksPerPage; ++i) {
-            block->_next = NextBlock(block);
-            block = block->_next;
+            block->next = NextBlock(block);
+            block = block->next;
         }
-        block->_next = nullptr;
+        block->next = nullptr;
     }
     // Get 1 free block
     BlockHeader* freeBlock = _freeList;
-    _freeList = _freeList->_next;
+    _freeList = _freeList->next;
     --_freeBlocks;
 
 #ifdef _DEBUG
@@ -79,7 +79,7 @@ void Lumi::Allocator::Free(void* p) {
     FillBlock(block, PATTERN_FREE);
 #endif
     // Insert the block into the front of the free list
-    block->_next = _freeList;
+    block->next = _freeList;
     _freeList = block;
     ++_freeBlocks;
 }
@@ -88,7 +88,7 @@ void Lumi::Allocator::FreeAll() {
     PageHeader *page = _pageList;
     while (page) {
         PageHeader *cur = page;
-        page = page->_next;
+        page = page->next;
         delete[] reinterpret_cast<uint8_t*>(cur);
     }
 
@@ -101,7 +101,7 @@ void Lumi::Allocator::FreeAll() {
 
 #ifdef _DEBUG
 void Lumi::Allocator::FillPage(PageHeader* page, uint8_t pattern) {
-    page->_next = nullptr;
+    page->next = nullptr;
     BlockHeader *block = page->Blocks();
     for (auto i = 0; i < _blocksPerPage; ++i) {
         FillBlock(block, pattern);

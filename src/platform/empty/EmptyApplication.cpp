@@ -12,10 +12,9 @@
  */
 
 #include "core/BaseApplication.h"
+#include "core/Config.h"
 
-namespace Lumi {
-    Config config;
-    BaseApplication BaseApp(config);
-    IApplication *App = &BaseApp;
-
-}; ///< namespace Lumi
+Lumi::IApplication* Lumi::Config::GetInitApp() {
+    static BaseApplication baseApp;
+    return &baseApp;
+}

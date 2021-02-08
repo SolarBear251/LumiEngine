@@ -25,7 +25,7 @@ private:
 
 public:
     /// Constructors and destructors
-    WindowsApplication(Config &config) : BaseApplication(config) {}
+    using BaseApplication::BaseApplication;
     virtual ~WindowsApplication() {}
 
     /// Override functions
