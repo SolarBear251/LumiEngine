@@ -12,3 +12,11 @@
  */
 
 #include "core/GraphicsManager.h"
+
+int Lumi::GraphicsManager::Initialize() { return 0; }
+
+void Lumi::GraphicsManager::Finalize() {}
+
+void Lumi::GraphicsManager::Tick() { Render(); }
+
+void Lumi::GraphicsManager::Render() {}

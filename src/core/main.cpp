@@ -13,9 +13,7 @@
 
 #include <iostream>
 
-#include "interface/IApplication.h"
 #include "core/Config.h"
-#include "core/AssetLoader.h"
 
 /**
  * @brief    Main function. Entry of the engine.
@@ -27,13 +25,15 @@
  */
 int main(int argc, char **argv) {
     // Config modules
-    Lumi::Config::Instance().Initialize();
+    int res = Lumi::Config::Instance().Initialize();
+    if (res != 0) {
+        std::cerr << "Config failed." << std::endl;
+        return EXIT_FAILURE;
+    }
+    // Initialize modules
     std::vector<Lumi::IRuntimeModule*> modules;
     modules.emplace_back(Lumi::gApp);
     modules.emplace_back(Lumi::gAssetLoader);
-
-    // Initialize modules
-    int res;
     for (auto &module : modules) {
         if ((res = module->Initialize()) != 0) {
             std::cerr << "Initialize failed, err = " << res << std::endl;

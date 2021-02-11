@@ -45,12 +45,13 @@ void* Lumi::AssetLoader::Open(const char* filename, AssetOpenMode mode) {
             fullPath += filename;
 
             FILE* file = nullptr;
+            errno_t res;
             if (mode == ASSET_OPEN_TEXT) {
-                file = fopen(fullPath.c_str(), "r");
+                res = fopen_s(&file, fullPath.c_str(), "r");
             } else if (mode == ASSET_OPEN_BINARY) {
-                file = fopen(fullPath.c_str(), "rb");
+                res = fopen_s(&file, fullPath.c_str(), "rb");
             }
-            if (file) return file;
+            if (res == 0) return file;
         }
         upPath += "../";
     }

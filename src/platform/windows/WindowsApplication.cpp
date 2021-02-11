@@ -14,9 +14,10 @@
 #include "platform/windows/WindowsApplication.h"
 #include "core/Config.h"
 
-Lumi::IApplication* Lumi::Config::GetInitApp() {
-    static WindowsApplication windowsApp;
-    return &windowsApp;
+int Lumi::Config::InitByPlatform() {
+    gApp         = new WindowsApplication();
+    gAssetLoader = new AssetLoader();
+    return 0;
 }
 
 int Lumi::WindowsApplication::Initialize() {

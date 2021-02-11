@@ -11,10 +11,11 @@
  * *********************************************************************************
  */
 
+#include <iostream>
+
 #include "core/BaseApplication.h"
 #include "core/Config.h"
 
-#include <iostream>
 
 bool Lumi::BaseApplication::_quit = false;
 

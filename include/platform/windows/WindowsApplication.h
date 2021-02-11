@@ -13,9 +13,10 @@
 
 #pragma once
 
-#include "core/BaseApplication.h"
 #include <windows.h>
 #include <windowsx.h>
+
+#include "core/BaseApplication.h"
 
 namespace Lumi {
 

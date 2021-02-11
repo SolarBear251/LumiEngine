@@ -18,8 +18,6 @@
 
 namespace Lumi {
 
-class IApplication;
-
 class Config {
 public:
     const char* _appName;
@@ -40,21 +38,13 @@ public:
         static Config gConfig("LumiEngine", 960, 540, 8, 8, 8, 8, 32, 0, 0);
         return gConfig;
     }
-    /**
-     * @brief    Initialize all global modules.
-     * 
-     * @return   int    Result code
-     */
-    int Initialize();
 
     /**
-     * @brief    Get initialize application module.
+     * @brief    Initialize all global modules
      *
-     * Please implement this function on your platform.
-     *
-     * @return   IApplication*   Pointer to the application
+     * @return   int    Result code
      */
-    IApplication* GetInitApp();
+    int Initialize() { return InitByPlatform(); }
 
     /**
      * @brief    Finalize all global modules.
@@ -63,6 +53,14 @@ public:
     void Finalize();
 
 private:
+    /**
+     * @brief    Initialize all global modules by current platform.
+     * ### Please implement this function on your platform!
+     *
+     * @return   int    Result code
+     */
+    int InitByPlatform();
+
     /// Constructors and destructors
     Config(const char* app_name = "LumiEngine", uint32_t width = 1920,
            uint32_t height = 1080, uint32_t r = 8, uint32_t g = 8,
@@ -102,3 +100,7 @@ inline std::ostream& operator<<(std::ostream& out, const Config& config) {
 }
 
 }; ///< namespace Lumi
+
+/// Include global module declarations
+#include "core/AssetLoader.h"
+#include "interface/IApplication.h"

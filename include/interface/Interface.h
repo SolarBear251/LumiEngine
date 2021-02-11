@@ -13,5 +13,10 @@
 
 #pragma once
 
-#define interface class
+#ifndef interface
+#define interface struct
+#endif
+
+#ifndef implements
 #define implements public
+#endif

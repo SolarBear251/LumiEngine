@@ -60,9 +60,9 @@ private:
     size_t      _alignSize;
     size_t      _blocksPerPage;
     /// Statistics
-    uint32_t    _pages;
-    uint32_t    _blocks;
-    uint32_t    _freeBlocks;
+    size_t      _pages;
+    size_t      _blocks;
+    size_t      _freeBlocks;
 
 public:
     /// Constructors

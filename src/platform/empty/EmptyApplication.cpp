@@ -11,10 +11,11 @@
  * *********************************************************************************
  */
 
-#include "core/BaseApplication.h"
 #include "core/Config.h"
+#include "core/BaseApplication.h"
 
-Lumi::IApplication* Lumi::Config::GetInitApp() {
-    static BaseApplication baseApp;
-    return &baseApp;
+int Lumi::Config::InitByPlatform() {
+    gApp         = new BaseApplication();
+    gAssetLoader = new AssetLoader();
+    return 0;
 }

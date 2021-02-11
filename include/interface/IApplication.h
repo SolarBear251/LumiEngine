@@ -31,6 +31,6 @@ public:
 
 }; ///< interface IApplication
 
-extern IApplication *gApp;
+extern IApplication* gApp;
 
 }; ///< namespace Lumi

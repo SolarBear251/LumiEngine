@@ -12,8 +12,6 @@
  */
 
 #include "core/Config.h"
-#include "core/AssetLoader.h"
-#include "interface/IApplication.h"
 
 namespace Lumi {
 
@@ -23,13 +21,7 @@ AssetLoader*    gAssetLoader;
 
 }; ///< namespace Lumi
 
-int Lumi::Config::Initialize() {
-    gApp         = GetInitApp();
-    gAssetLoader = new AssetLoader();
-
-    return 0;
-}
-
 void Lumi::Config::Finalize() {
+    delete gApp;
     delete gAssetLoader;
 }

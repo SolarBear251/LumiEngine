@@ -20,7 +20,18 @@ namespace Lumi {
 class GraphicsManager: implements IRuntimeModule 
 {
 public:
-    virtual ~GraphicsManager() { }
+    virtual ~GraphicsManager() = default;
+
+    /// Override functions
+    virtual int Initialize() override;
+    virtual void Finalize() override;
+    virtual void Tick() override;
+
+    /**
+     * @brief    Render current frame
+     * 
+     */
+    virtual void Render();
 
 }; ///< class GraphicsManager
 
