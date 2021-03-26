@@ -1,3 +1,16 @@
+/**
+ * @file       op_common.ispc
+ * @author     Lumi (lumiowo@hotmail.com)
+ * @date       2021-03-26
+ * 
+ * @brief    ISPC version of common operations
+ * 
+ * *********************************************************************************
+ * 
+ * 
+ * *********************************************************************************
+ */
+
 export void addByElement(uniform float res[], uniform const float a[], uniform const float b[], uniform const size_t cnt)
 {
     foreach(index = 0 ... cnt)

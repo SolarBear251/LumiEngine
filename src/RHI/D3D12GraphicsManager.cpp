@@ -11,16 +11,16 @@
  * *********************************************************************************
  */
 
-#include "RHI/D3D12GraphicsManager.h"
+#include <lumi/RHI/D3D12GraphicsManager.h>
 
-int Lumi::D3D12GraphicsManager::Initialize() {
-
-}
-
-void Lumi::D3D12GraphicsManager::Finalize() {
+int lumi::D3D12GraphicsManager::Initialize() {
 
 }
 
-void Lumi::D3D12GraphicsManager::Render() {
+void lumi::D3D12GraphicsManager::Finalize() {
+
+}
+
+void lumi::D3D12GraphicsManager::Render() {
 
 }

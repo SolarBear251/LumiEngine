@@ -11,10 +11,10 @@
  * *********************************************************************************
  */
 
-#include "core/Config.h"
-#include "core/BaseApplication.h"
+#include <lumi/core/BaseApplication.h>
+#include <lumi/core/Config.h>
 
-int Lumi::Config::InitByPlatform() {
+int lumi::Config::InitByPlatform() {
     gApp         = new BaseApplication();
     gAssetLoader = new AssetLoader();
     return 0;

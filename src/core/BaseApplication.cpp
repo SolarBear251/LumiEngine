@@ -11,22 +11,21 @@
  * *********************************************************************************
  */
 
+#include <lumi/core/BaseApplication.h>
+#include <lumi/core/Config.h>
+
 #include <iostream>
 
-#include "core/BaseApplication.h"
-#include "core/Config.h"
+bool lumi::BaseApplication::_quit = false;
 
-
-bool Lumi::BaseApplication::_quit = false;
-
-int Lumi::BaseApplication::Initialize() {
+int lumi::BaseApplication::Initialize() {
     _quit = false;
     std::cout << Config::Instance();
     return 0;
 }
 
-void Lumi::BaseApplication::Finalize() {}
+void lumi::BaseApplication::Finalize() {}
 
-void Lumi::BaseApplication::Tick() {}
+void lumi::BaseApplication::Tick() {}
 
-bool Lumi::BaseApplication::IsQuit() { return _quit; }
+bool lumi::BaseApplication::IsQuit() { return _quit; }

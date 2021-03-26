@@ -11,10 +11,11 @@
  * *********************************************************************************
  */
 
-#include "core/MemoryManager.h"
+#include <lumi/core/MemoryManager.h>
+
 #include <memory>
 
-namespace Lumi {
+namespace lumi {
 
 static constexpr uint32_t BLOCKSIZES[] = {
     // 4-increments
@@ -39,9 +40,9 @@ static constexpr uint32_t ALIGN = 4;
 size_t*     MemoryManager::_blockSizeLookup;
 Allocator*  MemoryManager::_allocators;
 
-}; ///< namespace Lumi
+}; ///< namespace lumi
 
-int Lumi::MemoryManager::Initialize() {
+int lumi::MemoryManager::Initialize() {
     // Initialize only once
     static bool hasInit = false;
     if (hasInit) return 0;
@@ -63,16 +64,16 @@ int Lumi::MemoryManager::Initialize() {
     return 0;
 }
 
-void Lumi::MemoryManager::Finalize() {
+void lumi::MemoryManager::Finalize() {
     delete[] _blockSizeLookup;
     delete[] _allocators;
 }
 
-void Lumi::MemoryManager::Tick() {
+void lumi::MemoryManager::Tick() {
 
 }
 
-Lumi::Allocator* Lumi::MemoryManager::LookupAllocator(size_t size) {
+lumi::Allocator* lumi::MemoryManager::LookupAllocator(size_t size) {
     if (size <= MAXBLOCKSIZE) {
         return &_allocators[_blockSizeLookup[size]];
     } else {
@@ -80,7 +81,7 @@ Lumi::Allocator* Lumi::MemoryManager::LookupAllocator(size_t size) {
     }
 }
 
-void* Lumi::MemoryManager::Malloc(size_t size) {
+void* lumi::MemoryManager::Malloc(size_t size) {
     Allocator* allocator = LookupAllocator(size);
     if (allocator) {
         return allocator->Malloc();
@@ -89,7 +90,7 @@ void* Lumi::MemoryManager::Malloc(size_t size) {
     }
 }
 
-void Lumi::MemoryManager::Free(void* p, size_t size) {
+void lumi::MemoryManager::Free(void* p, size_t size) {
     Allocator* allocator = LookupAllocator(size);
     if (allocator) {
         allocator->Free(p);

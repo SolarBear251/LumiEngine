@@ -1,3 +1,16 @@
+/**
+ * @file       op_matrix.ispc
+ * @author     Lumi (lumiowo@hotmail.com)
+ * @date       2021-03-26
+ * 
+ * @brief    ISPC version of matrix operations
+ * 
+ * *********************************************************************************
+ * 
+ * 
+ * *********************************************************************************
+ */
+
 export void transform(uniform float v[4], uniform const float m[16])
 {
     foreach(index = 0 ... 4) {

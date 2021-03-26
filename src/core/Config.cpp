@@ -11,17 +11,17 @@
  * *********************************************************************************
  */
 
-#include "core/Config.h"
+#include <lumi/core/Config.h>
 
-namespace Lumi {
+namespace lumi {
 
 /// Global runtime modules
 IApplication*   gApp;
 AssetLoader*    gAssetLoader;
 
-}; ///< namespace Lumi
+}; ///< namespace lumi
 
-void Lumi::Config::Finalize() {
+void lumi::Config::Finalize() {
     delete gApp;
     delete gAssetLoader;
 }

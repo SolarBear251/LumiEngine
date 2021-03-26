@@ -1,9 +1,14 @@
-/*
- * @Author       : Lumi
- * @Date         : 2020-06-23 15:32:06
- * @LastEditTime : 2021-01-06 16:29:59
- * @FilePath     : \undefinedd:\111\projects\LumiEngine\platform\windows\helloengine_d3d.cpp
- * @Description  : file content
+/**
+ * @file       helloengine_d3d.cpp
+ * @author     Lumi (lumiowo@hotmail.com)
+ * @date       2020-06-23
+ *
+ * @brief      Hello world for D3D interface.
+ *
+ * *********************************************************************************
+ *
+ *
+ * *********************************************************************************
  */
 
 #include <windows.h>

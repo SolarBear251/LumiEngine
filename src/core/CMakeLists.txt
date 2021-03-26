@@ -1,4 +1,4 @@
-add_library(core
+add_library(LumiCore
     Config.cpp
     AssetLoader.cpp
     Allocator.cpp

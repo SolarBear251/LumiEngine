@@ -1,2 +1,2 @@
-add_executable(WindowsApp WindowsApplication.cpp)
-target_link_libraries(WindowsApp core)
+add_executable(LumiWindowsApp WindowsApplication.cpp)
+target_link_libraries(LumiWindowsApp LumiCore)

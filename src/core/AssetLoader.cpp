@@ -11,9 +11,9 @@
  * *********************************************************************************
  */
 
-#include "core/AssetLoader.h"
+#include <lumi/core/AssetLoader.h>
 
-bool Lumi::AssetLoader::Exists(const char* filename) {
+bool lumi::AssetLoader::Exists(const char* filename) {
     void* file = Open(filename, ASSET_OPEN_BINARY);
     if (file) {
         Close(file);
@@ -23,7 +23,7 @@ bool Lumi::AssetLoader::Exists(const char* filename) {
     }
 }
 
-void* Lumi::AssetLoader::Open(const char* filename, AssetOpenMode mode) {
+void* lumi::AssetLoader::Open(const char* filename, AssetOpenMode mode) {
     std::string upPath;     ///< Prefix
     std::string fullPath;
 
@@ -59,7 +59,7 @@ void* Lumi::AssetLoader::Open(const char* filename, AssetOpenMode mode) {
     return nullptr;
 }
 
-Lumi::Buffer Lumi::AssetLoader::OpenAndRead(const char* filename,
+lumi::Buffer lumi::AssetLoader::OpenAndRead(const char* filename,
                                             AssetOpenMode mode) {
     FILE* file = static_cast<FILE*>(Open(filename, mode));
     

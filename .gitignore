@@ -1,5 +1,6 @@
 build/
 .vs/
+.vscode/
 
 *.exe
 *.obj
@@ -8,3 +9,7 @@ build/
 *.pdb
 *.pso
 *.vso
+
+
+######## ispc ########
+!thirdparty/ispc/**

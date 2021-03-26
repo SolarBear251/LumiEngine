@@ -11,9 +11,9 @@
  * *********************************************************************************
  */
 
-#include <iostream>
+#include <lumi/core/Config.h>
 
-#include "core/Config.h"
+#include <iostream>
 
 /**
  * @brief    Main function. Entry of the engine.
@@ -25,15 +25,15 @@
  */
 int main(int argc, char **argv) {
     // Config modules
-    int res = Lumi::Config::Instance().Initialize();
+    int res = lumi::Config::Instance().Initialize();
     if (res != 0) {
         std::cerr << "Config failed." << std::endl;
         return EXIT_FAILURE;
     }
     // Initialize modules
-    std::vector<Lumi::IRuntimeModule*> modules;
-    modules.emplace_back(Lumi::gApp);
-    modules.emplace_back(Lumi::gAssetLoader);
+    std::vector<lumi::IRuntimeModule*> modules;
+    modules.emplace_back(lumi::gApp);
+    modules.emplace_back(lumi::gAssetLoader);
     for (auto &module : modules) {
         if ((res = module->Initialize()) != 0) {
             std::cerr << "Initialize failed, err = " << res << std::endl;
@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
         }
     }
     // Tick
-    while(!Lumi::gApp->IsQuit()) {
+    while(!lumi::gApp->IsQuit()) {
         for (auto &module : modules) {
             module->Tick();
         }

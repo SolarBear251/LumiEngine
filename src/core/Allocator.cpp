@@ -11,11 +11,12 @@
  * *********************************************************************************
  */
 
-#include "core/Allocator.h"
+#include <lumi/core/Allocator.h>
+
 #include <cassert>
 #include <cstring>
 
-void Lumi::Allocator::Reset(size_t dataSize, size_t pageSize, size_t align) {
+void lumi::Allocator::Reset(size_t dataSize, size_t pageSize, size_t align) {
     // Make sure the alignment is 2^n
     assert(align > 0 && ((align & (align - 1))) == 0);
     // Clear previous allocated memory
@@ -30,7 +31,7 @@ void Lumi::Allocator::Reset(size_t dataSize, size_t pageSize, size_t align) {
     _blocksPerPage = (_pageSize - sizeof(PageHeader)) / _blockSize;
 }
 
-void* Lumi::Allocator::Malloc() {
+void* lumi::Allocator::Malloc() {
     // If no free blocks
     if (!_freeList) {
         // Allocate a new page
@@ -71,7 +72,7 @@ void* Lumi::Allocator::Malloc() {
     return reinterpret_cast<void*>(freeBlock);
 }
 
-void Lumi::Allocator::Free(void* p) {
+void lumi::Allocator::Free(void* p) {
     BlockHeader* block = reinterpret_cast<BlockHeader*>(p);
 
 #ifdef _DEBUG
@@ -84,7 +85,7 @@ void Lumi::Allocator::Free(void* p) {
     ++_freeBlocks;
 }
 
-void Lumi::Allocator::FreeAll() {
+void lumi::Allocator::FreeAll() {
     PageHeader *page = _pageList;
     while (page) {
         PageHeader *cur = page;
@@ -100,7 +101,7 @@ void Lumi::Allocator::FreeAll() {
 }
 
 #ifdef _DEBUG
-void Lumi::Allocator::FillPage(PageHeader* page, uint8_t pattern) {
+void lumi::Allocator::FillPage(PageHeader* page, uint8_t pattern) {
     page->next = nullptr;
     BlockHeader *block = page->Blocks();
     for (auto i = 0; i < _blocksPerPage; ++i) {
@@ -109,7 +110,7 @@ void Lumi::Allocator::FillPage(PageHeader* page, uint8_t pattern) {
     }
 }
 
-void Lumi::Allocator::FillBlock(BlockHeader* page, uint8_t pattern) {
+void lumi::Allocator::FillBlock(BlockHeader* page, uint8_t pattern) {
     // Fill header and data
     size_t validSize = _blockSize - _alignSize;
     std::memset(page, pattern, validSize);

@@ -11,16 +11,16 @@
  * *********************************************************************************
  */
 
-#include "platform/windows/WindowsApplication.h"
-#include "core/Config.h"
+#include <lumi/platform/windows/WindowsApplication.h>
+#include <lumi/core/Config.h>
 
-int Lumi::Config::InitByPlatform() {
+int lumi::Config::InitByPlatform() {
     gApp         = new WindowsApplication();
     gAssetLoader = new AssetLoader();
     return 0;
 }
 
-int Lumi::WindowsApplication::Initialize() {
+int lumi::WindowsApplication::Initialize() {
     // Init base application
     int result = BaseApplication::Initialize();
     if (result != 0) exit(result);
@@ -64,12 +64,12 @@ int Lumi::WindowsApplication::Initialize() {
     return result;
 }
 
-void Lumi::WindowsApplication::Finalize() {
+void lumi::WindowsApplication::Finalize() {
 
 
 }
 
-void Lumi::WindowsApplication::Tick() {
+void lumi::WindowsApplication::Tick() {
     // Windows event message
     MSG msg;
     // Use PeekMessage instead of GetMessage here
@@ -83,7 +83,7 @@ void Lumi::WindowsApplication::Tick() {
     }
 }
 
-LRESULT CALLBACK Lumi::WindowsApplication::WindowProc(HWND hWnd, UINT message,
+LRESULT CALLBACK lumi::WindowsApplication::WindowProc(HWND hWnd, UINT message,
                                                       WPARAM wParam,
                                                       LPARAM lParam) {
     // Get Application object
