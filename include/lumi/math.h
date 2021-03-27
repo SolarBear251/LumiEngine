@@ -13,7 +13,7 @@
 
 #pragma once
 
-#include <lumi\math\const.h>
-#include <lumi\math\functions.h>
-#include <lumi\math\ispc.h>
-#include <lumi\math\Vec.h>
+#include <lumi/math/const.h>
+#include <lumi/math/functions.h>
+#include <lumi/math/ispc.h>
+#include <lumi/math/Vec.h>

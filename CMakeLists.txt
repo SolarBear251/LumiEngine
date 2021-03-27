@@ -19,7 +19,19 @@ set(CMAKE_CXX_STANDARD  17)
 project(LumiEngine)
 
 ############## Options ##############
+# ispc
 option(USE_ISPC "Use Intel Implicit SPMD (single program multiple data) Program Compiler (ISPC) in math library" ON)
+MESSAGE( STATUS "USE_ISPC: " ${USE_ISPC})
+if(USE_ISPC)
+    add_definitions(-DUSE_ISPC)
+ENDIF(USE_ISPC)
+
+# assert
+option(ENABLE_ASSERT "Enable assertion" OFF)
+MESSAGE( STATUS "ENABLE_ASSERT: " ${ENABLE_ASSERT})
+if(ENABLE_ASSERT)
+    add_definitions(-DENABLE_ASSERT)
+ENDIF(ENABLE_ASSERT)
 
 ############## Include directories ##############
 include_directories("${PROJECT_SOURCE_DIR}/include")
@@ -40,6 +52,7 @@ MESSAGE( STATUS "TARGET_ARCH: " ${TARGET_ARCH} )
 MESSAGE( STATUS "ARCH_BIT: " ${ARCH_BIT} )
 
 ############## Sources ##############
+add_subdirectory(include)
 add_subdirectory(src)
 add_subdirectory(thirdparty)
 

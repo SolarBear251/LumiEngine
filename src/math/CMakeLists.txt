@@ -1,9 +1,8 @@
 # Math lib filename
-SET(LUMI_MATH_LIB_FILE ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_STATIC_LIBRARY_PREFIX}LumiMath${CMAKE_STATIC_LIBRARY_SUFFIX})
+SET(LUMI_MATH_LIB_FILE ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_STATIC_LIBRARY_PREFIX}lumi_math${CMAKE_STATIC_LIBRARY_SUFFIX})
 
 ########### ispc ############
 IF(USE_ISPC)
-    add_definitions(-DUSE_ISPC)
     # Platforms
     IF(${CMAKE_HOST_SYSTEM_NAME} MATCHES "Windows")
         SET(ISPC_COMPILER_PATH ${PROJECT_SOURCE_DIR}/thirdparty/ispc/windows/)
@@ -42,20 +41,15 @@ IF(USE_ISPC)
     # common options for ispc
     SET(ISPC_OPTIONS ${ISPC_OPTIONS} -O2)
     add_subdirectory(ispc)
+
+    add_library(lumi_math STATIC IMPORTED GLOBAL)
+    add_dependencies(lumi_math lumi_ispc)
+
+    set_target_properties(lumi_math
+        PROPERTIES
+        IMPORTED_LOCATION ${LUMI_MATH_LIB_FILE}
+    )
+ELSE()
+    add_library(lumi_math INTERFACE ${LUMI_MATH_HEADERS})
+    target_include_directories(lumi_math INTERFACE ${PROJECT_SOURCE_DIR}/include/lumi/math)
 ENDIF(USE_ISPC)
-
-
-add_library(LumiMath
-    op_common.cpp
-    op_vector.cpp
-    op_matrix.cpp
-)
-target_include_directories(LumiMath INTERFACE ${PROJECT_SOURCE_DIR}/include/math)
-IF(USE_ISPC)
-    add_dependencies(LumiMath LumiIspc)
-ENDIF(USE_ISPC)
-
-set_target_properties(LumiMath
-    PROPERTIES
-    IMPORTED_LOCATION ${LUMI_MATH_LIB_FILE}
-)

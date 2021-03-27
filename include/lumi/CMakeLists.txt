@@ -1,0 +1,7 @@
+add_subdirectory(core)
+add_subdirectory(math)
+add_subdirectory(platform)
+add_subdirectory(RHI)
+add_subdirectory(utils)
+
+

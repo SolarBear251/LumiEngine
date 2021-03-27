@@ -1,2 +1,2 @@
-add_executable(LumiEmptyApp EmptyApplication.cpp)
-target_link_libraries(LumiEmptyApp LumiCore)
+add_executable(lumi_emptyApp EmptyApplication.cpp)
+target_link_libraries(lumi_emptyApp lumi_core)

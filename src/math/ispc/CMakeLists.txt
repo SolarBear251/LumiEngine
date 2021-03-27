@@ -1,26 +1,20 @@
-set(FUNCTIONS op_common op_matrix op_vector)
+set(ISPC_FUNCTIONS op_common op_matrix op_vector)
 
-foreach(FUNC IN LISTS FUNCTIONS)
-    add_custom_command(OUTPUT ${FUNC}.o
-        COMMAND ${CMAKE_COMMAND} -E env "PATH=${ISPC_COMPILER_PATH}" ${ISPC_COMPILER} ${ISPC_OPTIONS} -o ${FUNC}.o ${CMAKE_CURRENT_SOURCE_DIR}/${FUNC}.ispc
-        MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/${FUNC}.ispc
-        COMMENT "Building ${FUNC}"
+foreach(ISPC_FUNC IN LISTS ISPC_FUNCTIONS)
+    add_custom_command(OUTPUT ${ISPC_FUNC}.o
+        COMMAND ${CMAKE_COMMAND} -E env "PATH=${ISPC_COMPILER_PATH}" ${ISPC_COMPILER} ${ISPC_OPTIONS} -o ${ISPC_FUNC}.o ${CMAKE_CURRENT_SOURCE_DIR}/${ISPC_FUNC}.ispc
+        MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/${ISPC_FUNC}.ispc
+        COMMENT "Building ${ISPC_FUNC}"
         )
-    list(APPEND OBJECTS ${FUNC}.o)
+    list(APPEND ISPC_OBJECTS ${ISPC_FUNC}.o)
+    list(APPEND ISPC_SOURCES ${ISPC_FUNC}.ispc)
 
-endforeach(FUNC)
+endforeach(ISPC_FUNC)
 
-IF(${WIN32})
 add_custom_command(OUTPUT ${LUMI_MATH_LIB_FILE}
-        COMMAND ${CMAKE_AR} ${ISPC_LIBRARIAN_OPTIONS} ${OBJECTS}
-        DEPENDS ${OBJECTS}
+        COMMAND ${CMAKE_AR} ${ISPC_LIBRARIAN_OPTIONS} ${ISPC_OBJECTS}
+        DEPENDS ${ISPC_OBJECTS}
+        COMMENT "lumi_math -> ${LUMI_MATH_LIB_FILE}"
         )
-ELSE()
-add_custom_command(OUTPUT ${LUMI_MATH_LIB_FILE}
-        COMMAND ${CMAKE_AR} ${ISPC_LIBRARIAN_OPTIONS} ${OBJECTS}
-        COMMAND ${CMAKE_RANLIB} ${LUMI_MATH_LIB_FILE}
-        DEPENDS ${OBJECTS}
-        )
-ENDIF(${WIN32})
 
-add_custom_target(LumiIspc DEPENDS ${LUMI_MATH_LIB_FILE})
+add_custom_target(lumi_ispc DEPENDS ${LUMI_MATH_LIB_FILE})

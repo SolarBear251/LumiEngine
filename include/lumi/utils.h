@@ -13,3 +13,5 @@
 
 #pragma once
 
+#include <lumi/utils/assert.h>
+#include <lumi/utils/log.h>

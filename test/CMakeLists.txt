@@ -1,7 +1,8 @@
 # Vectors
-add_executable(Test_Vector Test_Vector.cpp)
-target_link_libraries(Test_Vector
+add_executable(test_Vector test_Vector.cpp)
+target_link_libraries(test_Vector
     gtest 
     gtest_main
+    lumi_math
 )
-add_test(Test_Vector Test_Vector)
+add_test(test_Vector test_Vector)

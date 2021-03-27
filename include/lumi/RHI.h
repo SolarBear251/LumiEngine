@@ -13,4 +13,4 @@
 
 #pragma once
 
-#include <lumi\RHI\D3D12GraphicsManager.h>
+#include <lumi/RHI/D3D12GraphicsManager.h>
