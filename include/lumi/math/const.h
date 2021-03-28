@@ -15,6 +15,8 @@
 
 namespace lumi {
 
+constexpr float EPSILON = 1e-5f;
+
 constexpr float PI = 3.141592654f;
 
 constexpr float MUL_2_PI = PI * 2.0f;

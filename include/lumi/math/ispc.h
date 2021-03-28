@@ -14,105 +14,44 @@
 #pragma once
 
 #include <cstdint>
+#include <type_traits>
 
 namespace lumi {
 
+#define __DECLARE_FOR_SIGNED(DECLARE) \
+    DECLARE(float, float);            \
+    DECLARE(double, double);          \
+    DECLARE(int32_t, int32);
+
+#define __DECLARE_FOR_UNSIGNED(DECLARE) \
+    DECLARE(uint8_t, uint8)
+
 #define __DECLARE_FOR_EACH_TYPE(DECLARE) \
-    DECLARE(float, float);               \
-    DECLARE(double, double);             \
-    DECLARE(int32_t, int32);             \
-    DECLARE(int64_t, int64)
+    __DECLARE_FOR_SIGNED(DECLARE);       \
+    __DECLARE_FOR_UNSIGNED(DECLARE)
+
 
 #ifdef USE_ISPC
 /// ===================== ispc declarations =======================
 namespace ispc {
 extern "C" {
 
-#define __ISPC_DECLARATIONS(T, ispcType)                     \
-    T Sum_##ispcType(const T *data, const size_t cnt);       \
-    T SquareSum_##ispcType(const T *data, const size_t cnt); \
-    void Negate_##ispcType(T *res, const size_t cnt);        \
-    void Abs_##ispcType(T *data, const size_t cnt);          \
-    void MulNumber_##ispcType(T *data, const float num, const size_t cnt)
+#define __ISPC_DECLARATIONS(T, ispcType)                                   \
+    T Sum_##ispcType(const T *data, const size_t cnt);                     \
+    T SquareSum_##ispcType(const T *data, const size_t cnt);               \
+    void Negate_##ispcType(T *res, const size_t cnt);                      \
+    void Abs_##ispcType(T *data, const size_t cnt);                        \
+    void MulNumber_##ispcType(T *data, const float num, const size_t cnt); \
+    void AddByElement_##ispcType(T *res, const T *a, const T *b,           \
+                                 const size_t cnt);                        \
+    void SubByElement_##ispcType(T *res, const T *a, const T *b,           \
+                                 const size_t cnt);                        \
+    void MulByElement_##ispcType(T *res, const T *a, const T *b,           \
+                                 const size_t cnt);                        \
+    void Cross3_##ispcType(T *res, const T *a, const T *b)
 
 __DECLARE_FOR_EACH_TYPE(__ISPC_DECLARATIONS);
 
-// /**                                                                       \
-    //  * @brief    Add two number arrays by element.                            \
-    //  *                                                                        \
-    //  * @param    res         Result array                                     \
-    //  * @param    a           Left operand array                               \
-    //  * @param    b           Right operand array                              \
-    //  * @param    cnt         Count of involved elements                       \
-    //  *                                                                        \
-    //  */                                                                       \
-    // void AddByElement(T *res, const T *a, const T *b, const size_t cnt);      \
-    //                                                                           \
-    // /**                                                                       \
-    //  * @brief    Substract two number arrays by element.                      \
-    //  *                                                                        \
-    //  * @param    res         Result array                                     \
-    //  * @param    a           Left operand array                               \
-    //  * @param    b           Right operand array                              \
-    //  * @param    cnt         Count of involved elements                       \
-    //  *                                                                        \
-    //  */                                                                       \
-    // void SubByElement(T *res, const T *a, const T *b, const size_t cnt);      \
-    //                                                                           \
-    // /**                                                                       \
-    //  * @brief    Multiply two number arrays by element.                       \
-    //  *                                                                        \
-    //  * @param    res         Result array                                     \
-    //  * @param    a           Left operand array                               \
-    //  * @param    b           Right operand array                              \
-    //  * @param    cnt         Count of involved elements                       \
-    //  *                                                                        \
-    //  */                                                                       \
-    // void MulByElement(T *res, const T *a, const T *b, const size_t cnt);      \
-    //                                                                           \
-    // /**                                                                       \
-    //  * @brief    Divide two number arrays by element.                         \
-    //  *                                                                        \
-    //  * @param    res         Result array                                     \
-    //  * @param    a           Left operand array                               \
-    //  * @param    b           Right operand array                              \
-    //  * @param    cnt         Count of involved elements                       \
-    //  *                                                                        \
-    //  */                                                                       \
-    // void DivByElement(T *res, const T *a, const T *b, const size_t cnt);      \
-    //                                                                           \
-    // /**                                                                       \
-    //  * @brief    Square root of each element in number array.                 \
-    //  *                                                                        \
-    //  * @param    res         Result array                                     \
-    //  * @param    data        Input array                                      \
-    //  * @param    cnt         Count of involved elements                       \
-    //  *                                                                        \
-    //  */                                                                       \
-    // void Sqrt(T *res, const T *data, const size_t cnt);                       \
-    //                                                                           \
-    // /**                                                                       \
-    //  * @brief    Power of each element in number array.                       \
-    //  *                                                                        \
-    //  * @param    res         Result array                                     \
-    //  * @param    data        Input array                                      \
-    //  * @param    cnt         Count of involved elements                       \
-    //  * @param    exponent    The exponent of the power                        \
-    //  *                                                                        \
-    //  */                                                                       \
-    // void Power(T *res, const T *data, const size_t cnt, const T exponent);    \
-    //                                                                           \
-    // /* ===================== Vector =======================*/                 \
-    //                                                                           \
-    // /**                                                                       \
-    //  * @brief    Cross Product of 3D Vectors.                                 \
-    //  *                                                                        \
-    //  * @param    res         Result array                                     \
-    //  * @param    a           Left operand array                               \
-    //  * @param    b           Right operand array                              \
-    //  *                                                                        \
-    //  */                                                                       \
-    // void Cross3(T res[3], const T a[3], const T b[3]);                        \
     //                                                                           \
     // /* ===================== Matrix ======================= */                \
     //                                                                           \
@@ -257,11 +196,13 @@ __DECLARE_FOR_EACH_TYPE(__NEGATE_TYPE);
 #ifdef USE_ISPC
 #define __ABS_TYPE(T, ispcType)                  \
     inline void Abs(T *data, const size_t cnt) { \
+        if (std::is_unsigned<T>::value) return;  \
         ispc::Abs_##ispcType(data, cnt);         \
     }
 #else
 #define __ABS_TYPE(T, ispcType)                         \
     inline void Abs(T *data, const size_t cnt) {        \
+        if (std::is_unsigned<T>::value) return;         \
         for (size_t i = 0; i < cnt; i++) {              \
             data[i] = data[i] < 0 ? -data[i] : data[i]; \
         }                                               \
@@ -292,27 +233,107 @@ __DECLARE_FOR_EACH_TYPE(__ABS_TYPE);
 #endif
 __DECLARE_FOR_EACH_TYPE(__MULNUMBER_TYPE);
 
-// template <typename T>
-// inline void AddByElement(T *res, const T *a, const T *b, const size_t cnt) {
-// #ifdef USE_ISPC
-//     ispc::AddByElement(res, a, b, cnt);
-// #else
-//     for (size_t i = 0; i < cnt; i++) {
-//         res[i] = a[i] + b[i];
-//     }
-// #endif
-// }
+/*
+ * @brief    Add two arrays by element.
+ *
+ * @param    res         Result array
+ * @param    a           Left operand array
+ * @param    b           Right operand array
+ * @param    cnt         Array size
+ *
+ */
+#ifdef USE_ISPC
+#define __ADDBYELEMENT_TYPE(T, ispcType)                     \
+    inline void AddByElement(T *res, const T *a, const T *b, \
+                             const size_t cnt) {             \
+        ispc::AddByElement_##ispcType(res, a, b, cnt);       \
+    }
+#else
+#define __ADDBYELEMENT_TYPE(T, ispcType)                     \
+    inline void AddByElement(T *res, const T *a, const T *b, \
+                             const size_t cnt) {             \
+        for (size_t i = 0; i < cnt; i++) {                   \
+            res[i] = a[i] + b[i];                            \
+        }                                                    \
+    }
+#endif
+__DECLARE_FOR_EACH_TYPE(__ADDBYELEMENT_TYPE);
 
-// template <typename T>
-// inline void SubByElement(T *res, const T *a, const T *b, const size_t cnt) {
-// #ifdef USE_ISPC
-//     ispc::SubByElement(res, a, b, cnt);
-// #else
-//     for (size_t i = 0; i < cnt; i++) {
-//         res[i] = a[i] - b[i];
-//     }
-// #endif
-// }
+/*
+ * @brief    Subtract two arrays by element.
+ *
+ * @param    res         Result array
+ * @param    a           Left operand array
+ * @param    b           Right operand array
+ * @param    cnt         Array size
+ *
+ */
+#ifdef USE_ISPC
+#define __SUBBYELEMENT_TYPE(T, ispcType)                     \
+    inline void SubByElement(T *res, const T *a, const T *b, \
+                             const size_t cnt) {             \
+        ispc::SubByElement_##ispcType(res, a, b, cnt);       \
+    }
+#else
+#define __SUBBYELEMENT_TYPE(T, ispcType)                     \
+    inline void SubByElement(T *res, const T *a, const T *b, \
+                             const size_t cnt) {             \
+        for (size_t i = 0; i < cnt; i++) {                   \
+            res[i] = a[i] - b[i];                            \
+        }                                                    \
+    }
+#endif
+__DECLARE_FOR_EACH_TYPE(__SUBBYELEMENT_TYPE);
+
+/*
+ * @brief    Multiply two arrays by element.
+ *
+ * @param    res         Result array
+ * @param    a           Left operand array
+ * @param    b           Right operand array
+ * @param    cnt         Array size
+ *
+ */
+#ifdef USE_ISPC
+#define __MULBYELEMENT_TYPE(T, ispcType)                     \
+    inline void MulByElement(T *res, const T *a, const T *b, \
+                             const size_t cnt) {             \
+        ispc::MulByElement_##ispcType(res, a, b, cnt);       \
+    }
+#else
+#define __MULBYELEMENT_TYPE(T, ispcType)                     \
+    inline void MulByElement(T *res, const T *a, const T *b, \
+                             const size_t cnt) {             \
+        for (size_t i = 0; i < cnt; i++) {                   \
+            res[i] = a[i] * b[i];                            \
+        }                                                    \
+    }
+#endif
+__DECLARE_FOR_EACH_TYPE(__MULBYELEMENT_TYPE);
+
+/**
+ * @brief    Cross product of Vec3
+ *
+ * @param    res         Pointer to result array
+ * @param    a           Left operand array
+ * @param    b           Right operand array
+ *
+ */
+#ifdef USE_ISPC
+#define __CROSS3_TYPE(T, ispcType)                       \
+    inline void Cross3(T *res, const T *a, const T *b) { \
+        ispc::Cross3_##ispcType(res, a, b);              \
+    }
+#else
+#define __CROSS3_TYPE(T, ispcType)                       \
+    inline void Cross3(T *res, const T *a, const T *b) { \
+        res[0] = a[1] * b[2] - a[2] * b[1];              \
+        res[1] = a[2] * b[0] - a[0] * b[2];              \
+        res[2] = a[0] * b[1] - a[1] * b[0];              \
+    }
+#endif
+__DECLARE_FOR_EACH_TYPE(__CROSS3_TYPE);
+
 
 }; ///< namespace lumi
 

@@ -3,4 +3,5 @@ set(LUMI_MATH_HEADERS
     functions.h
     ispc.h
     Vec.h
+    Mat.h
 )

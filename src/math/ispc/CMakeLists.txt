@@ -1,4 +1,4 @@
-set(ISPC_FUNCTIONS op_common op_matrix op_vector)
+set(ISPC_FUNCTIONS op_ispc)
 
 foreach(ISPC_FUNC IN LISTS ISPC_FUNCTIONS)
     add_custom_command(OUTPUT ${ISPC_FUNC}.o

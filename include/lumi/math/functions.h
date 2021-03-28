@@ -14,31 +14,32 @@
 #pragma once
 
 #include <cmath>
+#include <lumi/math/const.h>
 
 namespace lumi {
 
 template <typename T>
-inline T Abs(const T val) {
+inline T Abs(const T &val) {
     return val < 0 ? -val : val;
 }
 
 template <typename T>
-inline bool IsZero(const T val) {
+inline bool IsZero(const T &val) {
     return val == 0;
 }
 
 template <>
-inline bool IsZero(const float val) {
-    return Abs(val) < 1e-5f;
+inline bool IsZero(const float &val) {
+    return Abs(val) < EPSILON;
 }
 
 template <>
-inline bool IsZero(const double val) {
-    return Abs(val) < 1e-10;
+inline bool IsZero(const double &val) {
+    return Abs(val) < EPSILON;
 }
 
 template <typename T>
-inline float Sqrt(const T val) {
+inline float Sqrt(const T &val) {
     return std::sqrt(static_cast<float>(val));
 }
 

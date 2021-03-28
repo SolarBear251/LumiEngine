@@ -9,6 +9,7 @@ build/
 *.pdb
 *.pso
 *.vso
+*.log
 
 
 ######## ispc ########
